@@ -212,3 +212,22 @@ let currentPage = 1;
 let currentQuery = "";
 const perPage = 9;
 
+function createModal(imageUrl, altText) {
+    const modal = document.getElementById("modal");
+    const modalImg = document.getElementById("modalImg");
+    const caption = document.getElementById("caption");
+    modal.style.display = "block";
+    modalImg.src = imageUrl;
+    caption.innerText = altText;
+
+    document.querySelector(".close").onclick = () => {
+        modal.style.display = "none";
+    };
+
+    window.onclick = function(event) {
+        if (event.target === modal) {
+            modal.style.display = "none";
+        }
+    };
+}
+
