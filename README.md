@@ -308,3 +308,21 @@ async function searchImages(randomOne = false, page = 1) {
     }
 }
 
+function randomDance() {
+    const dances = [
+        "Ballet",
+        "Hip hop dance",
+        "Breakdance",
+        "Salsa dance",
+        "Contemporary dance",
+        "Tango",
+        "Waltz",
+        "Flamenco",
+    ];
+    const random = dances[Math.floor(Math.random() * dances.length)];
+    document.getElementById("danceSelect").value = random;
+    document.getElementById("customDance").value = "";
+    searchImages(true);
+}
+
+
