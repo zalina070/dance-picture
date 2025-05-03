@@ -1,4 +1,5 @@
 # dance-picture
+//html
 <!DOCTYPE html>
 <html lang="ru">
 
@@ -62,6 +63,8 @@
             document.getElementById("infoText").style.display = "block";
         });
     </script>
+
+//css
 </body>
 
 </html>
@@ -203,3 +206,9 @@ img:hover {
     font-weight: bold;
     cursor: pointer;
 }
+
+//js
+let currentPage = 1;
+let currentQuery = "";
+const perPage = 9;
+
