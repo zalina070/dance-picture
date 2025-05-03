@@ -325,4 +325,15 @@ function randomDance() {
     searchImages(true);
 }
 
+function nextPage() {
+    searchImages(false, currentPage + 1);
+}
+
+function prevPage() {
+    if (currentPage > 1) {
+        searchImages(false, currentPage - 1);
+    }
+}
+
+
 
