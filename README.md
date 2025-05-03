@@ -335,5 +335,15 @@ function prevPage() {
     }
 }
 
+document.getElementById("homeBtn").addEventListener("click", () => {
+    document.getElementById("welcomeText").style.display = "block"; // Показываем надпись
+});
+
+document.getElementById("customDance").addEventListener("keydown", function(e) {
+    if (e.key === "Enter") {
+        searchImages();
+    }
+});
+
 
 
