@@ -231,3 +231,80 @@ function createModal(imageUrl, altText) {
     };
 }
 
+async function searchImages(randomOne = false, page = 1) {
+    const select = document.getElementById("danceSelect");
+    const input = document.getElementById("customDance");
+    const query = input.value || select.value;
+
+    if (!query) {
+        alert("Введите или выберите стиль танца!");
+        return;
+    }
+
+    currentQuery = query;
+    currentPage = page;
+
+    const count = randomOne ? 1 : perPage;
+    const apiKey = "F_vHuLfFcEBDIbzCeh06HkfAC4EWaEcSQsUinVzU-E8";
+    const url = `https://api.unsplash.com/search/photos?query=${encodeURIComponent(query)}&client_id=${apiKey}&per_page=${count}&page=${page}`;
+
+    try {
+        const response = await fetch(url);
+        const data = await response.json();
+        const imagesDiv = document.getElementById("images");
+        imagesDiv.innerHTML = "";
+
+        if (data.results.length === 0) {
+            imagesDiv.innerHTML = "<p>Ничего не найдено 😢</p>";
+            document.getElementById("pagination").style.display = "none";
+            return;
+        }
+
+        data.results.forEach((photo) => {
+            const container = document.createElement("div");
+            container.classList.add("image-card");
+            container.style.padding = "10px";
+            container.style.border = "1px solid #ddd";
+            container.style.borderRadius = "10px";
+            container.style.background = "#f9f9f9";
+
+            const img = document.createElement("img");
+            img.src = photo.urls.small;
+            img.alt = photo.alt_description || "dance image";
+            img.style.cursor = "pointer";
+            img.onclick = () => createModal(photo.urls.regular, img.alt);
+
+            const info = document.createElement("div");
+            info.style.marginTop = "8px";
+            info.innerHTML = ` 
+                <strong>Автор:</strong> <a href="${photo.user.links.html}" target="_blank">${photo.user.name}</a><br>
+                <strong>Лайки:</strong> ❤️ ${photo.likes}<br>
+                <strong>Дата:</strong> ${new Date(photo.created_at).toLocaleDateString()}<br>
+                <strong>Описание:</strong> ${photo.description || photo.alt_description || "—"}<br>
+                <strong>Ссылка:</strong> <a href="${photo.links.html}" target="_blank">Открыть на Unsplash</a><br><br>
+            `;
+
+            const openBtn = document.createElement("button");
+            openBtn.innerText = "Открыть";
+            openBtn.style.padding = "5px 10px";
+            openBtn.style.border = "none";
+            openBtn.style.background = "#007bff";
+            openBtn.style.color = "white";
+            openBtn.style.borderRadius = "5px";
+            openBtn.style.cursor = "pointer";
+            openBtn.onclick = () => createModal(photo.urls.regular, img.alt);
+
+            container.appendChild(img);
+            container.appendChild(info);
+            container.appendChild(openBtn);
+            imagesDiv.appendChild(container);
+        });
+
+        document.getElementById("pagination").style.display = !randomOne ? "flex" : "none";
+        document.getElementById("pageInfo").innerText = `Страница ${currentPage}`;
+    } catch (error) {
+        console.error("Ошибка при загрузке:", error);
+        alert("Что-то пошло не так. Попробуйте позже.");
+    }
+}
+
